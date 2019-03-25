@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using MCS.Models;
 
 namespace MCS
 {
@@ -33,6 +35,9 @@ namespace MCS
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<MCSContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString("MCSContext"),builder => builder.MigrationsAssembly("MCS")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
