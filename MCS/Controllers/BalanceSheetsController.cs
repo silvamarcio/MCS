@@ -44,6 +44,26 @@ namespace MCS.Controllers
             return View(balanceSheet);
         }
 
+        //GET: BalanceSheet/BalanceInOut/5
+        public async Task<IActionResult> BalanceInOut(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var balanceSheets = await _context.BalanceSheet
+                .Include(b => b.Employee)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (balanceSheets == null)
+            {
+                return NotFound();
+            }
+           
+            return View(balanceSheets);
+        }
+
         // GET: BalanceSheets/Create
         public IActionResult Create()
         {
@@ -156,12 +176,6 @@ namespace MCS.Controllers
             return _context.BalanceSheet.Any(e => e.Id == id);
         }
 
-        //GET: BalanceSheet/BalenceInOut
-        public IActionResult BalanceInOut()
-        {
-            //needed for make Employee Appear.
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id");
-            return View();
-        }
+        
     }
 }
