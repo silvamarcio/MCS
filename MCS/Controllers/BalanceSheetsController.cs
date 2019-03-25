@@ -155,8 +155,12 @@ namespace MCS.Controllers
         {
             return _context.BalanceSheet.Any(e => e.Id == id);
         }
+
+        //GET: BalanceSheet/BalenceInOut
         public IActionResult BalanceInOut()
         {
+            //needed for make Employee Appear.
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id");
             return View();
         }
     }
