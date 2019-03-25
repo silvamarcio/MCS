@@ -14,5 +14,7 @@ namespace MCS.Models
         }
 
         public DbSet<MCS.Models.Occupation> Occupation { get; set; }
+        public DbSet<MCS.Models.BalanceSheet> BalanceSheet { get;set;}
+        public DbSet<MCS.Models.Employee> Employees { get;set;}
     }
 }
