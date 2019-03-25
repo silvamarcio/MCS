@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<MCS.Models.BalanceSheet>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Fichas";
 }
 
-<h1>Index</h1>
+<h1> @ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+    <a class="btn btn-secondary" asp-action="BalanceInOut">Fazer Balanço</a>
 </p>
 <table class="table">
     <thead>

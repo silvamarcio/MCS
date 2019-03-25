@@ -155,5 +155,9 @@ namespace MCS.Controllers
         {
             return _context.BalanceSheet.Any(e => e.Id == id);
         }
+        public IActionResult BalanceInOut()
+        {
+            return View();
+        }
     }
 }
