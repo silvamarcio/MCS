@@ -155,5 +155,14 @@ namespace MCS.Controllers
         {
             return _context.Employees.Any(e => e.Id == id);
         }
+        public IActionResult CreateOccupation()
+        {
+            return RedirectToAction("Index", "Occupations");
+        }
+
+        public IActionResult BalanceCreate()
+        {
+            return RedirectToAction("Index","BalanceSheets");
+        }
     }
 }

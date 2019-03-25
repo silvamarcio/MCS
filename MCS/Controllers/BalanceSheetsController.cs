@@ -21,7 +21,8 @@ namespace MCS.Controllers
         // GET: BalanceSheets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BalanceSheet.ToListAsync());
+            var mCSContext = _context.BalanceSheet.Include(b => b.Employee);
+            return View(await mCSContext.ToListAsync());
         }
 
         // GET: BalanceSheets/Details/5
@@ -33,6 +34,7 @@ namespace MCS.Controllers
             }
 
             var balanceSheet = await _context.BalanceSheet
+                .Include(b => b.Employee)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (balanceSheet == null)
             {
@@ -45,6 +47,7 @@ namespace MCS.Controllers
         // GET: BalanceSheets/Create
         public IActionResult Create()
         {
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id");
             return View();
         }
 
@@ -53,7 +56,7 @@ namespace MCS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Balance")] BalanceSheet balanceSheet)
+        public async Task<IActionResult> Create([Bind("Id,Balance,EmployeeId")] BalanceSheet balanceSheet)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +64,7 @@ namespace MCS.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", balanceSheet.EmployeeId);
             return View(balanceSheet);
         }
 
@@ -77,6 +81,7 @@ namespace MCS.Controllers
             {
                 return NotFound();
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", balanceSheet.EmployeeId);
             return View(balanceSheet);
         }
 
@@ -85,7 +90,7 @@ namespace MCS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Balance")] BalanceSheet balanceSheet)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Balance,EmployeeId")] BalanceSheet balanceSheet)
         {
             if (id != balanceSheet.Id)
             {
@@ -112,6 +117,7 @@ namespace MCS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", balanceSheet.EmployeeId);
             return View(balanceSheet);
         }
 
@@ -124,6 +130,7 @@ namespace MCS.Controllers
             }
 
             var balanceSheet = await _context.BalanceSheet
+                .Include(b => b.Employee)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (balanceSheet == null)
             {
